@@ -1,5 +1,5 @@
 {
-  "firebase": "ucdd2-book",
+  "firebase": "bettybook",
   "public": "build",
   "ignore": [
     "firebase.json",
