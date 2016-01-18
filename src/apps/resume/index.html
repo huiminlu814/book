@@ -9,9 +9,6 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<style>
-		h2 { 
-			font-size: small;
-		}
 		h1 {
 			font-size: middle;
 		}
@@ -25,16 +22,25 @@
 
       <div class="container">
 
-        <h1>Betty Lu(HUI-MIN LU)</h1>
+        <h2 class="center-align">Betty Lu(HUI-MIN LU)</h2>
 
-        <h2>Favorite Programming Languages</h2>
+        <h3>Contact Infomation</h3>
+        <ul class="collection" id="info">
+        </ul>		
+		
+        <h3>Education</h3>
+        <ul class="collection" id="education">
+        
+        </ul>
+
+        <h3> Programming Languages</h3>
         <ul class="collection" id="FavoriteLang">
         <!--  <li class="collection-item">Python</li>
           <li class="collection-item">javascript</li> -->
         </ul>
 
-        <h2 >Favorite Food</h2>
-        <ul class="collection" id="foods">
+        <h3 >Working Experience</h3>
+        <ul class="collection" id="work">
         </ul>
 
       </div>
@@ -43,22 +49,41 @@
 
         // create a firebase reference to the root
         var ref = new Firebase('https://bettybook.firebaseio.com/')
+
+
+        ref.child('bio/ContactInfo').once('value', function(snapshot){
+          var info = snapshot.val()
+          info.forEach(function(p){
+            $('#info').append('<li class="collection-item">' + p + '</li>')
+          })
+        })		
+		
+        ref.child('bio/Edu').once('value', function(snapshot){
+          var education = snapshot.val()
+          education.forEach(function(i){
+            $('#education').append('<li class="collection-item">' + i + '</li>')
+          })
+        })		
 		
         ref.child('bio/favorite programming').once('value', function(snapshot){
           var FavoriteLang = snapshot.val()
-          FavoriteLang.forEach(function(food){
-            $('#FavoriteLang').append('<li class="collection-item">' + food + '</li>')
+          FavoriteLang.forEach(function(j){
+            $('#FavoriteLang').append('<li class="collection-item">' + j + '</li>')
           })
         })
 		
 		
         // read data from the location bio/favorite_foods, only once
-        ref.child('bio/favorite_foods').once('value', function(snapshot){
-          var foods = snapshot.val()
-          foods.forEach(function(food){
-            $('#foods').append('<li class="collection-item"><font color="blue">' + food + '</font></li>')
+        ref.child('bio/Working').once('value', function(snapshot){
+          var work = snapshot.val()
+		  var count=0;
+          work.forEach(function(j){
+			var card= '<div class="row"><div class="col s12"><div class="card blue darken-1"><div class="card-content white-text">';
+			card += j+ '</div></div></div></div>'
+            $('#work').append(card);//'<div class="row"><div class="col s12"><div class="card blue darken-1"><div class="card-content white-text">' + j + '</div></div></div></div>')
           })
         })
+
 
       </script>
     </body>
