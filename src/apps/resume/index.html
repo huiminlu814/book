@@ -24,6 +24,10 @@
 
         <h2 class="center-align">Betty Lu(HUI-MIN LU)</h2>
 
+        <h3 >favor food</h3>
+        <ul class="collection" id="food">
+        </ul>		
+		
         <h3>Contact Infomation</h3>
         <ul class="collection" id="info">
         </ul>		
@@ -40,7 +44,7 @@
         </ul>
 
         <h3 >Working Experience</h3>
-        <ul class="collection" id="work">
+        <ul class="collection" id="work1">
         </ul>
 
       </div>
@@ -76,7 +80,6 @@
         // read data from the location bio/favorite_foods, only once
         ref.child('bio/Working').once('value', function(snapshot){
           var work = snapshot.val()
-		  var count=0;
           work.forEach(function(j){
 			var card= '<div class="row"><div class="col s12"><div class="card blue darken-1"><div class="card-content white-text">';
 			card += j+ '</div></div></div></div>'
@@ -84,6 +87,18 @@
           })
         })
 
+        ref.child('bio/favor_food').once('value', function(snapshot){
+          var jobs = snapshot.val();
+          jobs.forEach(function(job){
+            var card ='<li class="card light-blue lighten-3 z-depth-3"><div class="card-content"><span class="card-title">';
+            card += '</span>'; //job.Employer + 
+            Object.keys(job).forEach(function(key) {
+                card +=  key + ': ' + job[key] + '</p>';
+            })
+            card += '</div></li>';
+            $('#food').append(card);
+          })
+        });
 
       </script>
     </body>

@@ -1,1 +1,60 @@
-TODO
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+      <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+	 
+      <div class="container">
+
+      
+
+		
+        <h2 class="light-blue darken-4 white-text center-align">Low Priority Tasks</h2>
+		<style="font-size:14px"><a href="index.html">。Index Page</a>&nbsp&nbsp&nbsp&nbsp<a href="low.html">。Low Priority Tasks</a>&nbsp&nbsp&nbsp&nbsp<a href="medium.html">。Medium Priority Tasks </a> &nbsp&nbsp&nbsp&nbsp <a href="high.html">。Heigh Priority Tasks</a></style>
+        <ul class="collection" id="tasks">
+        </ul>
+
+      </div>
+
+      <script>
+        // create a firebase reference to the root
+        var ref = new Firebase('https://bettybook.firebaseio.com/')
+        // read data from the location todos/tasks, only once
+		
+        ref.child('todos/tasks').on('value', function(snapshot){
+          var tasks = snapshot.val();
+		  var card ='';
+          tasks.forEach(function(task){
+            
+            
+            Object.keys(task).forEach(function(key) {
+              if (key != 'title') {
+				if (task[key] == "low")
+				{
+					card+='<li class="card light-blue lighten-3 z-depth-3 dismissable"><div class="card-content"><span class="card-title">';
+					card += task.title + '</span><p>'+"deadline: "+task.deadline;
+					card += '<p>' + key + ': ' + task[key] + '</p>'+'type: '+task.type+'<p>';
+				}
+              }
+            })
+            card += '</div></li>';
+            $('#tasks').html(card);
+          })
+		  
+        })
+		
+      </script>
+    </body>
+  </html>
+

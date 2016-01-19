@@ -18,31 +18,44 @@
       <div class="container">
 
         <h1>My Team's ToDos App</h1>
-        <ul>
-			<li>lily Ji</li>
-			<li>hui-min lu</li>
-			<li>Emily Randall</li>
-			<li>Varshini Jagannath </li>
-			<li>Yue Zhang </li>
-			<li>Yadira Valadeez </li>
-		</ul>
-        <h2>Tasks</h2>
+        <ul class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header">Group members</div>
+            <div class="collapsible-body">
+              <ul class="collection">
+                <li class="collection-item">lily Ji</li>
+                <li class="collection-item">hui-min lu</li>
+                <li class="collection-item">Emily Randall</li>
+                <li class="collection-item">Varshini Jagannath </li>
+                <li class="collection-item">Yue Zhang </li>
+                <li class="collection-item"> Yadira Valadeez </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+		<style="font-size:14px"><a href="index.html">。Index Page</a>&nbsp&nbsp&nbsp&nbsp<a href="low.html">。Low Priority Tasks</a>&nbsp&nbsp&nbsp&nbsp<a href="medium.html">。Medium Priority Tasks </a> &nbsp&nbsp&nbsp&nbsp <a href="high.html">。Heigh Priority Tasks</a></style>
+        <h2 class="light-blue darken-4 white-text center-align">Tasks</h2>
         <ul class="collection" id="tasks">
         </ul>
 
       </div>
 
       <script>
-		//<li class="collection-item">' + task + '</li>
         // create a firebase reference to the root
-		//<div class="row"><div class="col s12 m6"><div class="card blue-grey darken-1"><div class="card-content white-text">' + task + '</div></div></div></div>
-        var ref = new Firebase('https://vivid-torch-6257.firebaseio.com/')
-
+        var ref = new Firebase('https://bettybook.firebaseio.com/')
         // read data from the location todos/tasks, only once
-        ref.child('todos/tasks').once('value', function(snapshot){
-          var tasks = snapshot.val()
+        ref.child('todos/tasks').on('value', function(snapshot){
+          var tasks = snapshot.val();
           tasks.forEach(function(task){
-            $('#tasks').append('<div class="row"><div class="col s12"><div class="card blue darken-1"><div class="card-content white-text">' + task + '</div></div></div></div>')
+            var card ='<li class="card light-blue lighten-3 z-depth-3 dismissable"><div class="card-content"><span class="card-title">';
+            card += task.title + '</span>';
+            Object.keys(task).forEach(function(key) {
+              if (key != 'title') {
+                card += '<p>' + key + ': ' + task[key] + '</p>';
+              }
+            })
+            card += '</div></li>';
+            $('#tasks').append(card);
           })
         })
       </script>
