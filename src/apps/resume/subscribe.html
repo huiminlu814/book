@@ -16,9 +16,9 @@
       <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
 
       <div class="container">
-
+	
         <h1> Subscribe </h1>
-
+		<div style="font-size:14px;color:blue"><a href="index.html">>>Go Back Index Page</a></div></br>
         <div class="row">
           <div class="input-field col s12">
             <input value="" id="email" type="text" class="validate">
@@ -40,19 +40,38 @@
       </div>
 
       <script>
-
+		var ref = new Firebase('https://bettybook.firebaseio.com/')
+		
+		var subscribeRef= ref.child('subscribe'); 
+		
         $('#submit').click(function(){
           console.log('the submit button is clicked')
 
           // TODO: add code to submit an email address to your own Firebase
-
+		  var email = $('#email').val();
+		  
+		  var taskObject = email;
+         //if (email != "") {
+            subscribeRef.push().set(email);
+          //}		
+		  
+		  location.href = 'subscribe.html';
         })
+		
+		
 
 
         // TODO: add code to pull emaill addresses from your own Firebase,
         // and populate "#emails" with these email addresses
 
-
+        ref.child('subscribe').once('value', function(snapshot){
+          var emails = snapshot.val()
+		  for (var t in emails) 
+		  {
+			
+			$('#emails').append('<li class="collection-item">'+emails[t]+'</li>');
+		  }
+        })		
       </script>
     </body>
   </html>

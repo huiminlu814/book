@@ -17,26 +17,33 @@
 
       <div class="container">
 
-        <h2 class="center-align">Betty Lu(HUI-MIN LU)</h2>		
+        <h3 class="center-align">Betty Lu(HUI-MIN LU)</h3>		
+		<div style="float:right;font-size:14px;color:blue"><a href="subscribe.html">>>subscribe</a></div></br>
+
+         <h5>My Tasks</h5>
+        <ul class="collection" id="tasks">
+        </ul>	
 		
-        <h3>Contact Infomation</h3>
+        <h5>Working Experience</h5>
+        <ul class="collection" id="work">
+        </ul>		
+		
+         <h5>Contact Infomation</h5>
         <ul class="collection" id="info">
         </ul>		
 		
-        <h3>Education</h3>
+        <h5>Education</h5>
         <ul class="collection" id="education">
         
         </ul>
 
-        <h3> Programming Languages</h3>
+        <h5> Programming Languages</h5>
         <ul class="collection" id="FavoriteLang">
         <!--  <li class="collection-item">Python</li>
           <li class="collection-item">javascript</li> -->
         </ul>
 
-        <h3 >Working Experience</h3>
-        <ul class="collection" id="work">
-        </ul>
+
 
       </div>
 
@@ -44,7 +51,31 @@
 
         // create a firebase reference to the root
         var ref = new Firebase('https://bettybook.firebaseio.com/')
+		var ref_team = new Firebase('https://shining-fire-9960.firebaseio.com/')
 
+		ref_team.child('todos/tasks').on('value', function(snapshot){
+		  var tasks = snapshot.val();
+		  for (var t in tasks) {
+			var task = tasks[t];
+			
+			if(task['assigned']=='huiminlu814')
+			{
+				var card ='<li class="card light-blue lighten-3 z-depth-3 dismissable"><div class="card-content"><span class="card-title">';
+				card += task.title + '</span>';
+				Object.keys(task).forEach(function(key) {
+					if(key != 'title')
+					{
+						card += '<p>' + key + ': ' + task[key] + '</p>';
+					}
+				})
+				card += '</div>';
+			
+				$('#tasks').append(card);
+			}
+		  }
+		  
+        }) 		
+			
 
         ref.child('bio/ContactInfo').once('value', function(snapshot){
           var info = snapshot.val()
