@@ -1,1 +1,93 @@
-TODO:
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+      <!--Import stylesheet for Leaflet to work-->
+      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+      <link rel="stylesheet" href="/css/leaflet.label.css" />
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+      <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>
+      <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+      <script src="/js/leaflet.label.js"></script>
+	  
+	  <!-- Dropdown of team member names -->
+	  <ul id="teamDropdown" class="dropdown-content">
+	    <li><a href="https://mehring-resume.firebaseapp.com/apps/resume/">Russ Mehring</a></li>
+	    <li><a href="https://willie-ucd-book.firebaseapp.com/apps/resume/">William Payne</a></li>
+	    <li><a href="https://alexokeson-ucdd2.firebaseapp.com/apps/resume/">Alex Okeson</a></li>
+	    <li><a href="https://bettybook.firebaseapp.com/apps/resume/">Hui-Min Lu</a></li>
+	  </ul>
+      <nav>
+        <div class="nav-wrapper green lighten-2">
+          <ul>
+		    <li><a href="/">Course Home</a></li>
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="garages.html">List</a></li>
+            <li><a href="garages_map.html">Map</a></li>
+          </ul>
+		  
+		  <!-- Activate Dropdown of team member names -->
+		  <ul class="right hide-on-med-and-down">
+			<li><a class="dropdown-button" href="#!" data-activates="teamDropdown">Team Members<i class="material-icons right">arrow_drop_down</i></a></li>
+		  </ul>
+		  	  
+        </div>
+      </nav> 	  
+      <div class="container">
+
+		<p>
+		 <div class="slider">
+			<ul class="slides">
+			  <li>
+				<img src="https://c1.staticflickr.com/3/2790/4540289776_65c401d463_z.jpg"> <!-- random image -->
+				<div class="caption center-align">
+				  <h3>Welcome to Titans' Parking Garage!</h3>
+				</div>		 
+			  </li>
+			  <li>
+				<img src="http://www.chevrolet.com/content/dam/Chevrolet/northamerica/usa/nscwebsite/en/Home/Chevy%20Culture/News/Parking%20Garages/01-images/2013-culture-news-parking-garages-mh-1-1280x551.jpg"> <!-- random image -->
+				
+			  </li>
+			  <li>
+				<img src="http://www.rentenbach.com/Uploads/Images/PhotoGalleries/VA%20Tech%20Parking%20Deck%204[1].JPG"> <!-- random image -->
+				<div class="caption left-align">
+				  <h3>Helping You Find Affordable Parking</h3>
+				</div>	
+			  </li>
+			</ul>
+		  </div>
+      </div>
+		
+      <script>
+	$(document).ready(function()
+	{
+		  $('.slider').slider({full_width: true});
+	});
+	
+	$('.slider').slider('pause');
+	// Start slider
+	$('.slider').slider('start');
+	// Next slide
+	$('.slider').slider('next');
+	// Previous slide
+	$('.slider').slider('prev');		
+      </script>
+	  
+	  <!-- Team copyright for prettyness -->
+	  <nav class="green lighten-2 center">
+		<div class="nav-wrapper container">Copyright @ Team Titans, All Rights Reserved.</div>
+	  </nav>
+    </body>
+  </html>

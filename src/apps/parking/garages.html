@@ -11,46 +11,152 @@
     </head>
 
     <body>
+
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
       <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>
-      
+
+	  <!-- Dropdown of team member names -->
+	  <ul id="teamDropdown" class="dropdown-content">
+	    <li><a href="https://mehring-resume.firebaseapp.com/apps/resume/">Russ Mehring</a></li>
+	    <li><a href="https://willie-ucd-book.firebaseapp.com/apps/resume/">William Payne</a></li>
+	    <li><a href="https://alexokeson-ucdd2.firebaseapp.com/apps/resume/">Alex Okeson</a></li>
+	    <li><a href="https://bettybook.firebaseapp.com/apps/resume/">Hui-Min Lu</a></li>
+	  </ul>
+	  
+
+      <nav>
+        <div class="nav-wrapper green lighten-2">
+          <ul>
+		    <li><a href="/">Course Home</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="garages.html">List</a></li>
+            <li><a href="garages_map.html">Map</a></li>
+          </ul>
+		  
+		  <!-- Activate Dropdown of team member names -->
+		  <ul class="right hide-on-med-and-down">
+			<li><a class="dropdown-button" href="#!" data-activates="teamDropdown">Team Members<i class="material-icons right">arrow_drop_down</i></a></li>
+		  </ul>
+		  
+        </div>
+      </nav> 
+
+      <div style="background-image:url('http://ww2.kqed.org/news/wp-content/uploads/sites/10/2014/01/parking-e1421692177386.jpg');">
+
       <div class="container">
 
-        <h1>Garages</h1>
-        <ul class="collection" id="garages">
+        <h1><font color="white">Garages in San Francisco</font></h1>
+        <ul class="collapsible z-depth-5" data-collapsible="accordion" id="garages">
         </ul>
 
       </div>
 
       <script>
+		// create a firebase reference to the root
+		var ref = new Firebase('https://publicdata-parking.firebaseio.com');
+		var data
 
-// create a firebase reference to the root
-var ref = new Firebase('https://publicdata-parking.firebaseio.com');
+		// read data from the location san_francisco/garages, only once
+		ref.child('san_francisco/garages').on('value', function(snapshot){
+		  $('#garages').empty()
+		  data = snapshot.val()
+		  console.log('data is loaded', data)
 
-var data
+		  // filter the data
+		  var garages = _.filter(data, function(d){
+			  // keep only those values (d) that has "open_spaces" as a field
+			  return _.has(d, 'open_spaces')
+		  })
 
-// read data from the location san_francisco/garages, only once
-ref.child('san_francisco/garages').once('value', function(snapshot){
-  data = snapshot.val()
-  console.log('data is loaded', data)
+		  displayGarages(garages)
+		})
 
-  // filter the data
-  var garages = _.filter(data, function(d){
-      // keep only those values (d) that has "open_spaces" as a field
-      return _.has(d, 'open_spaces')
-  })
+		function displayGarages(garages){
+		  // lodash _.forEach https://lodash.com/docs#forEach
+		  _.forEach(garages, function(val, key){
+			var color = fullPercent(val)
+			var parkingHours = val['rates']
+			currentRate = determineCurrentRate(parkingHours)
+			console.log(currentRate);
+			$('#garages').append('<li><div class="collapsible-header ' + color + '"><i class="material-icons">directions_car</i>' + val['friendlyName'] + '</div><div class="collapsible-body white"><p>Open Spaces: ' + val['open_spaces'] + '<br>Total Spaces: ' + val['total_spaces'] + '<br>Current Rate: ' + currentRate[1] + '</p></div></li>')
+		  })
+		}
 
-  displayGarages(garages)
-})
+		function fullPercent(val){
+		  var openPercent = (val['open_spaces']/val['total_spaces'])*100
+		  var color = 'green lighten-4'
+			if(openPercent<20){
+			  color = 'red lighten-4'
+			} else if(openPercent<40){
+			  color = 'yellow lighten-4'
+			} else if(openPercent<60){
+			  color = 'orange lighten-4'
+			} return color
+		}
 
-function displayGarages(garages){
-  // lodash _.forEach https://lodash.com/docs#forEach
-  _.forEach(garages, function(val, key){
-    $('#garages').append('<li class="collection-item">' + val['friendlyName'] + '</li>')
-  })
-}
+		// Ignores special rate fields (eg 'Motorcyle', 'Maximum') and only looks at times
+		// Returns array with current rate values [parkingRateFloat, parkingRateString]
+		//    If it can't find rate - Returns [0, 'None']
+		function determineCurrentRate(parkingHours) {
+		  var parkingRateFloat = 0
+		  var parkingRateString = 'None'
+		  var currentdate = new Date();
+		  var datetime = ((currentdate.getHours() - 1) * 60) + currentdate.getMinutes()
+			if (Array.isArray(parkingHours)){
+			for (var i = 0; i < parkingHours.length; i++ ) {
+			  if (typeof parkingHours[i]['BEG'] != 'undefined') {
+				var beginningTime = timeToInt(parkingHours[i]['BEG'], 'beginning')
+				var endingTime = timeToInt(parkingHours[i]['END'], 'end')
+				if (datetime < endingTime && datetime >= beginningTime) {
+				  parkingRateFloat = parseFloat(parkingHours[i]['RATE'])
+				  parkingRateString = '$' + (parkingHours[i]['RATE']) + ' ' + (parkingHours[i]['RQ'])
+				  break;
+				}
+			  }
+			}
+		  }
+		  return [parkingRateFloat, parkingRateString]
+		}
+
+		// Converts the time strings from firebase to an int representing current time minutes
+		function timeToInt(timeString, beginningOrEnd) {
+		  timeArray = timeString.split(":")
+		  var hours = parseInt(timeArray[0])
+		  var theRest = timeArray[1]
+		  var theRestArray = timeArray[1].split(" ")
+		  var minutes = parseInt(theRestArray[0])
+		  var amOrPm = theRestArray[1]
+
+		  if (amOrPm == 'PM') {
+			if (hours != 12) {
+			  hours = hours + 12
+			}
+			timeNum = (hours * 60) + minutes
+			return timeNum
+		  }
+		  else {
+			// Midnight is a special case - 0 if beginning, 24 if end
+			if (hours == 12) {
+			  if (beginningOrEnd == 'beginning') {
+				hours = 0
+			  }
+			  else {
+				hours = 24
+			  }
+			}
+			timeNum = (hours * 60) + minutes
+		  }
+		  return timeNum
+		}
+
       </script>
+	  
+	  <!-- Team copyright for prettyness -->
+	  <nav class="green lighten-2 center">
+		<div class="nav-wrapper container">Copyright @ Team Titans, All Rights Reserved.</div>
+	  </nav>
+	  
     </body>
   </html>
