@@ -30,7 +30,7 @@
       <div class="nav-wrapper">
         <a href="#!" class="brand-logo">HUI-MIN LU(Betty)</a>
         <ul class="right hide-on-med-and-down">
-		  <li><a href="Index.html">Home</a></li>
+		  <li><a href="Index.html" id="top">Home</a></li>
           <li><a href="subscribe.html">Subscribe</a></li>
           <li  class="active"><a href="cities.html">My Favorite Cities</a></li>
           
@@ -41,7 +41,7 @@
         <div id="map" style="height:500px"></div>
 		<div id="cities"></div>
       </div>
-
+		<a href="#top" ><div align="right">>>top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></a>
       <script>
 
 		// create a firebase reference to the root
@@ -206,7 +206,7 @@
 				{
 					current_icon='<image src=/apps/resume/images/n_partlyClear.png  height=45 width=45 title='+weather+'>'
 				}
-				else if(weather =='partly-cloudy-day')
+				else if(weather =='partly-cloudy-day' || weather=='cloud')
 				{
 					current_icon='<image src=/apps/resume/images/d_partlySunny.png  height=38 width=38 title='+weather+'>'
 				}
@@ -221,7 +221,11 @@
 				else if(weather =='fog')
 				{
 					current_icon='<image src=/apps/resume/images/fog.png  height=38 width=38 title='+weather+'>'
-				}				
+				}
+				else if(weather=='snow')
+				{
+					current_icon='<image src=/apps/resume/images/snow.png  height=38 width=38 title='+weather+'>'
+				}
 				else
 				{
 					current_icon=weather
