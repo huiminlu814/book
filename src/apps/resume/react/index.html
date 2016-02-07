@@ -14,23 +14,29 @@
     <script src="lib/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
   </head>
   <body>
     <div class="container">
       <div id="navbar"></div>
 
-      <h2 id="about-heading">About Me</h2>
+      <h4 id="about-heading">About Me</h4>
       <div id="about"></div>
 
-      <h2 id="skills-heading">Skills</h2>
+      <h4 id="skills-heading">Skills</h4>
       <div id="skills"></div>
 
-      <h2 id="tasks-heading">Tasks</h2>
+      <h4 id="tasks-heading">Tasks</h4>
       <div id="tasks"></div>
 
-      <h2 id="cities-heading">Favorite Cities</h2>
+      <h4 id="cities-heading">Favorite Cities</h4>
       <div id="cities"></div>
+	  
+	  
     </div>
+	<div class="fixed-action-btn" style="bottom: 30px; right:30px;">
+		  <a class="btn-floating yellow darken-1" href="#top"><i class="material-icons">dashboard</i></a>
+	 </div>
     <script>
       // MyComponents is a global object where each property is a reference to a component class
       MyComponents = {}
@@ -47,41 +53,146 @@
 
     <!-- render react components -->
     <script type="text/babel">
+        var ref = new Firebase('https://bettybook.firebaseio.com/')
+		var ref_team = new Firebase('https://shining-fire-9960.firebaseio.com/')
+		var ref_city = new Firebase('https://publicdata-weather.firebaseio.com');
 
+	  
       ReactDOM.render(
         <MyComponents.NavBar/>,
         $('#navbar').get(0)
       );
 
       ReactDOM.render(
-        <MyComponents.About/>,
+        <MyComponents.About />,
         $('#about').get(0)
       );
 
       // TODO: load tasks data from Firebase
-      var tasks = [{name: 'go to the movies'}, {name: 'sleep'}]
+      //var tasks = [{name: 'go to the movies'}, {name: 'sleep'}]
+	 
 
-      ReactDOM.render(
-        <MyComponents.TaskList tasks={tasks}/>,
-        $('#tasks').get(0)
-      );
+		ref_team.child('todos/tasks').on('value', function(snapshot){
+		 var tasks=[]
+		  var jobs = snapshot.val();
+		  for (var t in jobs) {
+			var job = jobs[t];
+			//var name = task.child("title").val()
+			if(job['assigned']=='huiminlu814')
+			{
+				var title=job.title
+				var completed = job.completed
+				var deadline= job.deadline
+				var priority= job.priority
+				var type= job. type
+
+				tasks.push({title: title, priority: priority, type: type, deadline: deadline, completed:completed})
+			}
+			  ReactDOM.render(
+				<MyComponents.TaskList tasks={tasks}/>,
+				$('#tasks').get(0)
+			  );			
+		  }
+		  
+        }) 			  
+		
 
       // TODO: load city weather data from Firebase
-      var cities = [{name: 'Austin'}, {name: 'New York'}]
+      //var cities = [{name: 'Austin'}, {name: 'New York'}]
+		var myCity = ['austin', 'boston', 'sanfrancisco', 'seattle', 'newyork']
+		var myCityList = {'austin': 'Austin', 'boston': 'Boston', 'sanfrancisco': 'San Francisco', 'seattle': 'Seattle', 'newyork': 'Newyork'}
+		
+      ref_city.on('value', function(snapshot) {
+        var cities = []
+        var city = snapshot.val();
+		for( var c in city)
+		{
+			
+			var city_obj= city[c]
+			if(myCity.indexOf(c)!= -1)
+			{
+				var name= myCityList[c]
+				var icon = city_obj["currently"].icon
+				var img= displayicon(icon)
+				var tempture = city_obj["currently"].temperature
+				var timezone = city_obj["timezone"]
+				var summary = city_obj["daily"].summary
+				var time= city_obj["currently"].time
+				var humidity= city_obj["currently"].humidity
+				var visibility= city_obj["currently"].visibility
+				var windSpeed= city_obj["currently"].windSpeed
+				
+				cities.push({name: name, icon: icon, img: img, tempture: tempture, timezone:timezone, summary: summary , humidity: humidity, visibility:visibility, windSpeed:windSpeed})
+ 				ReactDOM.render(
+					<MyComponents.CityList cities={cities}/>,
+					$('#cities').get(0)
+				);
+				
+				//$('#info').append(timezone)
+			}
 
-      ReactDOM.render(
-        <MyComponents.CityList cities={cities}/>,
-        $('#cities').get(0)
-      );
+			
+		}
+		 
+      });
+	  
 
 
+
+	  
       // TODO: load skill data from Firebase
-      var skills = [{name: 'JavaScript', years: 5}, {name: 'Karate', years: 2}]
 
-      ReactDOM.render(
-        <MyComponents.SkillList skills={skills}/>,
-        $('#skills').get(0)
-      );
+      //var skills = [{name: 'JavaScript', years: 5}, {name: 'Karate', years: 2}]	
+      var skills = []
+      ref.child('bio/favorite programming').on('value', function(skillList){
+        skillList.forEach(function(skill){
+          var lang = skill.val().skill
+		  var year= skill.val().year
+          skills.push({name: lang, year:year})
+        })
+        ReactDOM.render(
+          <MyComponents.SkillList skills={skills}/>,
+          $('#skills').get(0)
+        );
+      });
+
+		function displayicon(weather) {
+			var current_icon=""//http://localhost:5000/apps/resume/react/sunny.png
+			if (weather=='clear-night')
+			{
+					current_icon="/apps/resume/images/clearNight.png"
+			}
+			else if(weather =='partly-cloudy-night')
+			{
+					current_icon='/apps/resume/images/n_partlyClear.png'
+			}
+			else if(weather =='partly-cloudy-day' || weather=='cloud')
+			{
+					current_icon='/apps/resume/images/d_partlySunny.png'
+			}
+			else if(weather =='rain')
+			{
+				current_icon='/apps/resume/images/rain.png'
+			}
+			else if(weather =='fog')
+			{
+				current_icon='/apps/resume/images/fog.png'
+			}
+			else if(weather=='snow')
+			{
+				current_icon='/apps/resume/images/snow.png'
+			}
+			else if(weather=="cloudy")
+			{
+				current_icon='/apps/resume/images/d_cloudy.png'
+			}
+			else
+			{
+					current_icon='/apps/resume/images/sunny.png'
+			}
+			
+			return current_icon
+		}	  
 
     </script>
   </body>

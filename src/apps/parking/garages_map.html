@@ -37,6 +37,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="garages.html">List</a></li>
             <li class="active"><a href="garages_map.html">Map</a></li>
+			<li><a href="/apps/parking/react/index.html">React Garage Viewer</a></li>
           </ul>
 		  
 		  <!-- Activate Dropdown of team member names -->
@@ -46,21 +47,39 @@
 		  
         </div>
       </nav>
-	  
+
       <div class="container">	
         <h1>Garages Map</h1>
-        <div id="map" style="height:500px"></div>
+        <!--add on 2/1/2016-->
+        <div class="col s12">
+          <ul class="tabs"><!--blue-text text-darken-2-->
+            <li class="tab col s3"><a href="#map">Garages Map</a></li>
+            <li class="tab col s3"><a href="#bus">Bus Map</a></li>
+            <li class="tab col s3"><a href="#customers">Customers Map</a></li>
+          </ul>
+        </div>
+
+        <p>
+		<div id="map" style="height:500px"></div>
+		<div id="bus" style="height:500px"></div>
+		<div id="customers" style="height:500px"></div>
 		<p id="p1"></p>
+		 <!--add on 2/1/2016-->
+
       </div>
 		
   <script>
 		// create a firebase reference to the root
 		var ref = new Firebase('https://publicdata-parking.firebaseio.com');
+		var transitRef = ref.child('sf-muni');
 		var attributionText = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
 		// create a layer group to hold all the markers
-		var markersLayerGroup = L.layerGroup();
+		var markersLayerGroupGarage = L.layerGroup();
+		var markersLayerGroupBus = L.layerGroup();
+		var markersLayerGroupCustomers = L.layerGroup();
 		var i=0;
 		var data;
+		var busData;
 
 		// read data from the location san_francisco/garages, only once
 		ref.child('san_francisco/garages').on('value', function(snapshot){
@@ -72,19 +91,52 @@
 		  })
 
 		  drawGarages(garages)
+		});	
+
+		var transitRef = new Firebase('https://publicdata-transit.firebaseio.com');
+
+		transitRef.child('sf-muni').child('vehicles').on('value', function(snapshot){
+		  var busdata = snapshot.val()
+		  console.log('data is loaded', busdata)
+
+		  drawBuses(busdata)	
 		});
 
-		// create the map
-		var map = L.map($('#map')[0]).setView([37.78, -122.41], 13)
+		drawUsers();
+
+		// create the garage map
+		var mapGarage = L.map($('#map')[0]).setView([37.78, -122.41], 13)
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 			attribution: attributionText,
 			maxZoom: 18,
 			id: 'doubleshow.noeko77m',
 			accessToken: 'pk.eyJ1IjoiZG91Ymxlc2hvdyIsImEiOiJjaWZ5Y3B1eTE1MHRidWRtMG9uZXluajg4In0.u5ONW27Ly5cU7M5KYi6Y9Q'
-		}).addTo(map)
+		}).addTo(mapGarage)
+
+		// create the bus map
+		var mapBus = L.map($('#bus')[0]).setView([37.78, -122.41], 13)
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			attribution: attributionText,
+			maxZoom: 18,
+			id: 'doubleshow.noeko77m',
+			accessToken: 'pk.eyJ1IjoiZG91Ymxlc2hvdyIsImEiOiJjaWZ5Y3B1eTE1MHRidWRtMG9uZXluajg4In0.u5ONW27Ly5cU7M5KYi6Y9Q'
+		}).addTo(mapBus)
+
+		// create the customers map
+		var mapCustomers = L.map($('#customers')[0]).setView([37.78, -122.41], 13)
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			attribution: attributionText,
+			maxZoom: 18,
+			id: 'doubleshow.noeko77m',
+			accessToken: 'pk.eyJ1IjoiZG91Ymxlc2hvdyIsImEiOiJjaWZ5Y3B1eTE1MHRidWRtMG9uZXluajg4In0.u5ONW27Ly5cU7M5KYi6Y9Q'
+		}).addTo(mapCustomers)
 
 		// add the makers layer group to the map
-		markersLayerGroup.addTo(map)
+		markersLayerGroupGarage.addTo(mapGarage)
+		//Add buses
+		markersLayerGroupBus.addTo(mapBus)
+		//Add customers
+		markersLayerGroupCustomers.addTo(mapCustomers)
 		
 		var showmore = function(key) {
 			//$("p").show();
@@ -135,11 +187,26 @@
 			});
 		};
 				
+		var bus_icon=L.icon({
+			iconUrl: 'bus.png',
+			iconSize:     [15, 15], // size of the icon
+		});
+
+		var customer_icon=L.icon({
+			iconUrl: 'person.png',
+			iconSize:     [25, 25], // size of the icon
+		});
+
+		var garage_icon=L.icon({
+			iconUrl: 'garage.png',
+			iconSize:     [40, 40], // size of the icon
+		});
+
+
 		// visualize garages on a map
 		function drawGarages(garages){
-
 		  // clear all existing markers (if any)
-		  markersLayerGroup.clearLayers()
+		  markersLayerGroupGarage.clearLayers()
 			var j=0;
 		  _.forEach(garages, function(garage, key){
 		    
@@ -150,22 +217,45 @@
 			var openSpaces= garage.open_spaces;
 			var cost = garage.rates;
 			currentRate = determineCurrentRate(cost)
-			//console.log(currentRate);
-
-				
+			//console.log('calling draw garages');
+		
 			// create a circle layer
-			var circle = L.circle(latlng, 10, {
-				color: 'blue',
-				fillColor: '#f03',
-				fillOpacity: 0.5
-			}).bindPopup(garageName+'<br>Open Spaces: ' + openSpaces +'<br>  <a class="label" onclick=showmore("' + j + '") class="teal-text text-darken-3">more detail</a> ',closeOnClick=true )
+			var circle = L.marker(latlng,{icon:garage_icon}).addTo(mapGarage).bindPopup(garageName+'<br>Open Spaces: ' + openSpaces +'<br>  <a class="label" onclick=showmore("' + j + '") class="teal-text text-darken-3">more detail</a> ',closeOnClick=true )
 			//.bindPopup(garageName+'<br>Open Spaces: ' + openSpaces +'<br>  <a class="label" onclick=showmore("' + i + '")  onmouseover="" style="cursor: pointer;" class="teal-text text-darken-3">more detail</a> ' )
 
 			// add the circle layer to the makers layer group
-			markersLayerGroup.addLayer(circle)
+			markersLayerGroupGarage.addLayer(circle)
 		  })
 		}
 		
+		function drawBuses(buses){
+			markersLayerGroupBus.clearLayers()
+			_.forEach(buses, function(bus, key){
+				var latlng = [bus.lat, bus.lon]
+				var route = bus.routeTag
+				var circle = L.marker(latlng,{icon:bus_icon}).addTo(mapBus).bindLabel('Route: '+route)
+				
+				markersLayerGroupBus.addLayer(circle)
+			})
+		}
+
+		function drawUsers() {
+			var ref = new Firebase('https://team-titans.firebaseio.com/');
+			var usersRef = ref.child("users");
+			markersLayerGroupCustomers.clearLayers()
+			usersRef.on("value", function(snapshot) {
+				newUsers = snapshot.val()
+				markersLayerGroupCustomers.clearLayers()
+				_.forEach(newUsers, function(newUser){
+					//console.log(newUser.name)
+					var marker = L.marker([newUser.lat, newUser.lon],{icon:customer_icon}).addTo(mapCustomers).bindLabel(newUser.name)
+					//L.marker([newUser.lat, newUser.lon]).bindLabel(newUser.name)
+					
+					markersLayerGroupCustomers.addLayer(marker)
+				});
+			});
+		}
+
 		function determineCurrentRate(parkingHours) {
 		  var parkingRateFloat = 0
 		  var parkingRateString = 'None'
