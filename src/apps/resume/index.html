@@ -104,10 +104,15 @@
 		
         ref.child('bio/favorite programming').once('value', function(snapshot){
           var FavoriteLang = snapshot.val()
-          FavoriteLang.forEach(function(j){
-            $('#FavoriteLang').append('<li class="collection-item">' + j + '</li>')
-          })
-        })
+		  
+		  for (var t in FavoriteLang) {
+			var task = FavoriteLang[t];
+			
+			$('#FavoriteLang').append('<li class="collection-item">' + task.skill + '</li>')
+		  }
+		  });
+		  
+
 		
 		
 
