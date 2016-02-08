@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
   <html>
     <head>
@@ -28,15 +29,17 @@
           </div>
         </div>
 
-         <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a>
-
-  <!-- Dropdown Structure -->
-  <ul id='dropdown1' class='dropdown-content'>
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-  </ul>
+        <div class="row">
+          <div class="input-field col s12">
+             <select id="priority">
+               <option value="" disabled selected>Choose Priority</option>
+               <option value="1">High</option>
+               <option value="2">Medium</option>
+               <option value="3">Low</option>
+             </select>
+             <label>Priority</label>
+           </div>
+        </div>
         
         <div class="row">
           <div class="input-field col s12">
@@ -55,7 +58,7 @@
         <div class="row">
           <div class="input-field col s12">
             <input value="" id="date" type="date" class="datepicker">
-            <label for="date">Due date</label>
+            <label class="active" for="date">Due date</label>
           </div>
         </div>
 
@@ -67,10 +70,13 @@
       </div>
 
       <script>
+
         var root = new Firebase('https://shining-fire-9960.firebaseio.com/');
         var taskListRef = root.child('todos/tasks');
+
         $('#submit').click(function(){
           var title = $('#title').val();
+
           var priority;
           switch($('#priority').val()) {
             case '1':
@@ -87,6 +93,7 @@
           var type = $('#type').val();
           var date = $('#date').val();
           var assigned = $('#assigned').val();
+
           var taskObject = {
             deadline: date,
             priority: priority,
@@ -102,6 +109,7 @@
           
           location.href = 'index.html';
         })
+
         // IMPORTANT!! initialize materializecss select
         $(document).ready(function() {
           $('select').material_select();

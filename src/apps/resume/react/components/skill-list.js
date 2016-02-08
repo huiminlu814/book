@@ -19,7 +19,6 @@ MyComponents.SkillList = React.createClass({
     return (
       <div className="card">
         <div className="card-content">
-         <p>My skills as below:</p>
         {skillElements}
 
         </div>

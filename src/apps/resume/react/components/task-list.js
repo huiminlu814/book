@@ -26,7 +26,6 @@ MyComponents.TaskList = React.createClass({
     return (
       <div className="card">
         <div className="card-content">
-        
         {taskElements}
 
         </div>
