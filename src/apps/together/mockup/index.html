@@ -31,86 +31,54 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="#">Login</a></li> 
 		  <li><a href="Index.html">Home</a></li>
+		  <li><a href="defects.html">Defects Discussion</a></li> 		  
 		  <li><a href="about.html">About</a></li> 
         </ul>		
       </div>
     </nav><p>
-	
-    <div class="parallax-container">
-      <div class="parallax"><img src="background.jpg"></div>
-	  
-        <div class="row">
-          <div class="col s4">
-            <div class="card  red lighten-2">
-              <div class="card-content white-text">
-                <span class="card-title">Memeber List</span>
-                <div class="white black-text">
-				    <ul class="collection" >
-					  <li class="collection-item">Ian (PM)</li>					
-					  <li class="collection-item">Betty (QA)</li>
-					  <li class="collection-item">Johnny (Developer)</li>
-					  <li class="collection-item">Donna (QA)</li>
-					  <li class="collection-item">Yune (Front-End Developer)</li>
-					</ul>
-                </div>
 
-              </div>
-            </div>
-          </div>
-          <div class="col s7">
-            <div class="card  red lighten-2">
-              <div class="card-content white-text">
-                <span class="card-title">Defect List</span>
-                <div class="white black-text">
-				  <ul class="collapsible" data-collapsible="accordion">
-					<li>
-					  <div class="collapsible-header"><i class="material-icons">filter_drama</i>Button is not working (P2)</div>
-					  <div class="collapsible-body">
-					  &nbsp;&nbsp;Johnny: It is the javascript problem(transfer to front-end)<br><br>
-					  &nbsp;&nbsp;Yune: Fix the issue<br><br>
-					  </div>
-					</li>
-					<li>
-					  <div class="collapsible-header"><i class="material-icons">filter_drama</i>Date is not correct in history page (P3)</div>
-					  <div class="collapsible-body"><p>Donna: The data should be last_modified_date column, not system_date</p></div>
-					</li>
-					<li>
-					  <div class="collapsible-header"><i class="material-icons">filter_drama</i>After input data, the list does not show a new record (P2)</div>
-					  <div class="collapsible-body"><p>Johnny: root cause is insert script is not correct</p></div>
-					</li>
-				  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-		  
-		 </div>
+	<div class="container">
+		<div class="col 12">
+			<div class="card">
+				<div class="card-image waves-effect waves-block waves-light"><img class="activator" src="background.jpg" height=900px></div>
+				<div class="card-content">
+					<span class="card-title activator black-text">Ideation!<i class="material-icons right">more_vert</i></span>
+				</div>
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">Ideation<i class="material-icons right">close</i></span>
+					<p>	
+					<ul class="collection" >
+					  <li class="collection-item">
+					  <h5>What is the name of your app? </h5>
+					    - Defect Discussion<br></li>					
+					  <li class="collection-item">
+					  <h5>What collaborative activity can people do together using your app?</h5>
+						- People can post project defects on the discussion board <br></li>
+					  <li class="collection-item">
+					  <h5>What is the ideal number of concurrent users (must be at least 10 but no more than 40)?</h5>
+						- 10 to 15 <br></li>
+					  <li class="collection-item">
+					  <h5>What skills do people need in order to do this activity?</h5>
+						- Ideally, people join a software project, and we want they have QA knowledge, coding or manage project skills. <br> </li>
+					  <li class="collection-item">
+					  <h5>Is this activity for fun or for something practical?</h5>
+						- It is for practical<br><li>
+					  <li class="collection-item">
+					  <h5>How can a person see what everyone else is doing?</h5>
+						- After a person login, he/she can post their comments or a defect <br><li>
+					  <li class="collection-item">
+					  <h5>How can a person see the most recent result of everyone’s collaborative effort?</h5>
+						- Users provide their comment, their comments will show under the defect<br><li>
+					  <li class="collection-item">
+					  <h5>What can an admin see (i.e., God’s mode)?</h5>
+					    - Admin can see all of defects. <br><li>						
+					</ul>	
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>	
 
-		</div>	  
-
-	  <div class="row ">
-		<h5>&nbsp;&nbsp;Defect comment:</h5>
-		<form class="col s12 ">
-		  <div class="row ">
-			<div class="input-field col s6 ">
-			  <input id="defect_title" type="text" class="validate  ">
-			  <label for="defect_title"> Defect_title</label>
-			</div>
-			<div class="input-field col s3 ">
-			  <input id="Priority" type="text" class="validate  ">
-			  <label for="Priority"> Priority (P1~P5, P1 is highest, p5 is lowest)</label>
-			</div>
-		  <div class="row">
-			<div class="input-field col s12">
-			  <input id="discription" type="text" class="validate">
-			  <label for="discription/Comments">Discriptions/Comments</label>
-			</div>
-		  </div>
-		  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-			<i class="material-icons right">send</i>
-		  </button>
-		</form>
-	  </div>
 	
     </body>
   </html>
