@@ -1,4 +1,116 @@
-TODO:
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+	  
+    </head>
+<!--background="https://scontent.fsnc1-1.fna.fbcdn.net/hphotos-xta1/t31.0-8/12087772_10153699793006952_2453784963152687937_o.jpg"-->
+    <body  >
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+      <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+	  <script>
+		$(document).ready(function()
+		{
+			$('.parallax').parallax();
+			
+			$('.collapsible').collapsible
+			({
+				accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+		});
+	  </script>
+	  
+	
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">Defects Discussion</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="#">Login</a></li> 
+		  <li><a href="Index.html">Home</a></li>
+		  <li><a href="about.html">About</a></li> 
+        </ul>		
+      </div>
+    </nav><p>
+	
+    <div class="parallax-container">
+      <div class="parallax"><img src="background.jpg"></div>
+	  
+        <div class="row">
+          <div class="col s4">
+            <div class="card  red lighten-2">
+              <div class="card-content white-text">
+                <span class="card-title">Memeber List</span>
+                <div class="white black-text">
+				    <ul class="collection" >
+					  <li class="collection-item">Ian (PM)</li>					
+					  <li class="collection-item">Betty (QA)</li>
+					  <li class="collection-item">Johnny (Developer)</li>
+					  <li class="collection-item">Donna (QA)</li>
+					  <li class="collection-item">Yune (Front-End Developer)</li>
+					</ul>
+                </div>
 
-<div>Links to the pages of your app's mockup</div>
-<div>Writeup of your ideation</div>
+              </div>
+            </div>
+          </div>
+          <div class="col s7">
+            <div class="card  red lighten-2">
+              <div class="card-content white-text">
+                <span class="card-title">Defect List</span>
+                <div class="white black-text">
+				  <ul class="collapsible" data-collapsible="accordion">
+					<li>
+					  <div class="collapsible-header"><i class="material-icons">filter_drama</i>Button is not working (P2)</div>
+					  <div class="collapsible-body">
+					  &nbsp;&nbsp;Johnny: It is the javascript problem(transfer to front-end)<br><br>
+					  &nbsp;&nbsp;Yune: Fix the issue<br><br>
+					  </div>
+					</li>
+					<li>
+					  <div class="collapsible-header"><i class="material-icons">filter_drama</i>Date is not correct in history page (P3)</div>
+					  <div class="collapsible-body"><p>Donna: The data should be last_modified_date column, not system_date</p></div>
+					</li>
+					<li>
+					  <div class="collapsible-header"><i class="material-icons">filter_drama</i>After input data, the list does not show a new record (P2)</div>
+					  <div class="collapsible-body"><p>Johnny: root cause is insert script is not correct</p></div>
+					</li>
+				  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+		  
+		 </div>
+
+		</div>	  
+
+	  <div class="row ">
+		<h5>&nbsp;&nbsp;Defect comment:</h5>
+		<form class="col s12 ">
+		  <div class="row ">
+			<div class="input-field col s6 ">
+			  <input id="defect_title" type="text" class="validate  ">
+			  <label for="defect_title"> Defect_title</label>
+			</div>
+			<div class="input-field col s3 ">
+			  <input id="Priority" type="text" class="validate  ">
+			  <label for="Priority"> Priority (P1~P5, P1 is highest, p5 is lowest)</label>
+			</div>
+		  <div class="row">
+			<div class="input-field col s12">
+			  <input id="discription" type="text" class="validate">
+			  <label for="discription/Comments">Discriptions/Comments</label>
+			</div>
+		  </div>
+		  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+			<i class="material-icons right">send</i>
+		  </button>
+		</form>
+	  </div>
+	
+    </body>
+  </html>

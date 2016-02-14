@@ -18,5 +18,4 @@ class App extends React.Component {
     </div>
   }
 }
-
 MyComponents.App = App

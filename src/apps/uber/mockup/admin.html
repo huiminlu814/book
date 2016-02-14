@@ -1,1 +1,148 @@
-TODO
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
+
+
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>
+
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+    <!-- https://github.com/PaulLeCam/react-leaflet -->
+    <script src="https://npmcdn.com/react-leaflet/dist/react-leaflet.min.js"></script>
+
+    <style>
+      .leaflet-container {
+        height: 400px;
+        width: 80%;
+        margin: 0 auto;
+      }
+    </style>
+
+  </head>
+  <body>
+ 	  
+    <div id="app-container" class="container">
+    </div>
+         <nav class = "black">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo center">Uber Cart</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="client.html">Client</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+         <ul class="side-nav" id="mobile-demo">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="client.html">Client</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </div>
+     </nav>
+	<div class="container">
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s6"><a href="#provider">Service Provider</a></li>
+            <li class="tab col s6"><a href="#clients">Clients</a></li>
+
+          </ul>
+		   		  
+        </div>
+        <div id="provider" class="col s12">
+          <ul class="collection" id="provider_info">
+
+			<div class="card-content">
+				<span class="blue-text text-darken-2">Name: Anne's Pretzels</span><br>
+				Star: 5<br>
+				Location: No2<br>
+				Type of Food:bread <br>
+				Service Time: 10:00AM ~ 5:00PM<br>
+			</div>
+
+			<div class="card-content"><p>
+				<span class="blue-text text-darken-2">Name: Papa's Hot Dog</span><br>
+				Star: 5<br>
+				Location: No.4<br>
+				Type of Food: Hot Dog <br>
+				Service Time: 10:00AM ~ 5:00PM<br>
+			</div>			
+			<div class="card-content"><p>
+				<span class="blue-text text-darken-2">Name: Fifty Drik</span><br>
+				Star: 5<br>
+				Location: No.6<br>
+				Type of Food: Drink <br>
+
+				Service Time: 10:00AM ~ 5:00PM<br>
+			</div>
+			<div class="card-content"><p>
+				<span class="blue-text text-darken-2">Name:Homemade ice cream</span><br>
+				Star: 5<br>
+				Location: No.6<br>
+				Type of Food: Ice cream <br>
+
+				Service Time: 10:00AM ~ 5:00PM<br>
+			</div>			
+			
+
+		  </ul>
+			</div>
+        <div id="clients" class="col s12">
+			<ul class="collection" id="clients_info">
+		  <span class="blue-text text-darken-2">Clients: Betty</span><br>
+		  Visit Time: 03:15 PM<br>
+		  Visit Vendor: ice cream<br><p>
+
+		  <span class="blue-text text-darken-2">Clients: Lily</span><br>
+
+		  Visit Time: 03:20 PM<br>
+		  Visit Vendor: ice cream<br><p>		  
+		  
+		  Visit Time: 03:15 PM<br>
+		  Visit Vendor: ice cream<br><p>
+
+
+		  <span class="blue-text text-darken-2">Clients: Matt</span><br>
+		  Visit Time: 04:30 PM<br>
+		  Visit Vendor: ice cream<br><p>
+
+		  </ul>        
+
+        </div>
+      </div>
+	</div>
+    <script>
+      // MyComponents is a global object where each property is a reference to a component class
+      MyComponents = {}
+    </script>
+
+    <!-- import each component class in components/ -->
+    <!-- The order is important. Dependencies must be loaded first -->
+    <script type="text/babel" src="components/user-list.jsx"></script>
+    <script type="text/babel" src="components/user-map.jsx"></script>
+    <script type="text/babel" src="components/provider-list.jsx"></script>
+    <script type="text/babel" src="components/provider-map.jsx"></script>
+
+    <!-- Main app container -->
+    <script type="text/babel" src="components/app.jsx"></script>
+
+    <!-- Connect the app and data -->
+    <script type="text/babel" src="data.jsx"></script>
+
+  </body>
+</html>

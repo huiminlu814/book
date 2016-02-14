@@ -4,41 +4,34 @@ const {Map, Marker, CircleMarker, Popup, TileLayer, MapLayer}  = window.ReactLea
 class MapView extends React.Component {
   render(){
 
-    const providers = this.props.providers
-    const providerElements = _.map(providers, function(p,i){
-      return <Marker position={p.pos} key={i}>
+	
+    const providerElements = this.props.providers.map( function(u,i){
+      return <Marker position={u.pos} >
         <Popup>
-          <span>{JSON.stringify(p)}</span>
+          <span>{u.name} <br />
+		  </span>
         </Popup>
       </Marker>
     })
+    
+    return (
+      <div className="row">
+        <div className="col s12 m10">
+          <div className="card">
+		  <h4>Provider Map</h4>
+			<Map center={[40.701749, -73.922]} zoom={13}>
+				<TileLayer
+				  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
+				   url='https://api.tiles.mapbox.com/v4/doubleshow.noeko77m/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZG91Ymxlc2hvdyIsImEiOiJjaWZ5Y3B1eTE1MHRidWRtMG9uZXluajg4In0.u5ONW27Ly5cU7M5KYi6Y9Q' 
+				/>
+				{providerElements}
 
-    let userElement
-    if (this.props.user){
-      userElement = <CircleMarker center={this.props.user.pos}/>
-    } else {
-      userElement = ''
-    }
+			  </Map>
+          </div>
+        </div>
+      </div>	
 
-    // Note: .bind(this) is important for the handler function's 'this'
-    // pointer to refer to this MapView instance
-
-    return  <Map center={this.props.center}
-          zoom={13}
-          onLeafletClick={this.handleLeafletClick.bind(this)}>
-        <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {providerElements}
-        {userElement}
-      </Map>
-  }
-
-
-  handleLeafletClick(event){
-    console.log('leaflet click event', event)
-    this.props.setUserLocationAction(event.latlng)
+	)
   }
 }
 
