@@ -2,6 +2,20 @@ var _ = require('lodash')
 var random_name = require('node-random-name');
 var Firebase = require('firebase');
 
+
+var express = require('express');
+var app     = express();
+
+app.set('port', (process.env.PORT || 5000));
+
+//For avoidong Heroku $PORT error
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
+
 // New York
 var city_location = {
   lat: 40.73,
@@ -34,7 +48,7 @@ function simulate_provider(){
   // simulate this person leaving after 'duration' seconds
   setTimeout(function(){
     leave_provider(person)
-  }, duration * 20000)
+  }, duration * 40000)
 
 }
 
@@ -63,12 +77,57 @@ function simulate_user(){
    //simulate this person leaving after 'duration' seconds
   setTimeout(function(){
     leave_user(person)
-  }, duration * 10000)
+  }, duration * 30000)
+
+  //while(keepLooping) {
+    //for (var i = 0; i < 10; i++)
+    //{
+      move_person(person)
+    //}
+  //}
 
 }
 
+function move_person(person){
+ console.log('move', person)
+  var ref = new Firebase('https://team-roar.firebaseio.com/users')
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization update failed');
+      } else {
+        console.log('Synchronization update succeeded');
+        // Once we see a success, move the person again. 
+        setTimeout(function(){
+          move_person(person)
+        }, 5000)
+
+      }
+    };
+    var changeLat = Math.random() * .002//.001 //Math.floor(Math.random() * 10) -5
+    changeLat *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+    var changeLon = Math.random() * .002//.001//Math.floor(Math.random() * 10) -5
+    changeLon *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+    console.log("changeLat: " + changeLat)
+    console.log("changeLon: " + changeLon)
+    ref.child(person.name).once('value',function(snapshot)
+    {
+      var user = snapshot.val()
+      //console.log("GOT:" + user.pos.lat)
+      if (user != null)
+      {
+        ref.child(person.name).update({pos: {
+            lat: user.pos.lat + changeLat,
+            lon: user.pos.lon + changeLon
+          }}, onComplete);
+      }
+    })
+
+
+    //var newProviderRef = providerListRef.push()
+}
+
 function enter_provider(person){
-  console.log('enter person!!!:', person)
+  console.log('enter person:', person)
     var ref = new Firebase('https://team-roar.firebaseio.com/providers')
     var providerListRef = ref.child('providers')
     ref.child(person.name).set({
@@ -83,7 +142,7 @@ function enter_provider(person){
 }
 
 function enter_user(person){
-  console.log('enter user!!!:', person)
+  console.log('enter user:', person)
     var ref = new Firebase('https://team-roar.firebaseio.com/users')
     var userListRef = ref.child('users')
     ref.child(person.name).set({
@@ -125,7 +184,7 @@ function leave_provider(person){
 }
 
 function random_vendor_type(){
-  var types = ["Sandwich","Ice Cream","Burgers","Hot Dogs","Gyros"];
+  var types = ["IceCream","Burger","HotDog","Tacos"];
   var index = Math.floor(Math.random() * types.length)
   return types[index]
 }
@@ -142,17 +201,17 @@ function clear() {
 clear()
 
 // Generate some providers
-for (var i = 0; i < 5; i++)
+for (var i = 0; i < 10; i++)
 {
   simulate_provider()
 }
 
 // Generate some users. 
-for (var i = 0; i < 30; i++)
+for (var i = 0; i < 40; i++)
 {
   simulate_user()
 }
 
-setInterval(simulate_user, 2000)
-setInterval(simulate_provider, 16000)
+setInterval(simulate_user, 8000)
+setInterval(simulate_provider, 28000)
 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+<!--background="https://scontent.fsnc1-1.fna.fbcdn.net/hphotos-xta1/t31.0-8/12087772_10153699793006952_2453784963152687937_o.jpg"-->
+    <body  >
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+      <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+	  <script>
+		$(document).ready(function()
+		{
+			$('.parallax').parallax();
+			
+			$('.collapsible').collapsible
+			({
+				accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+			$('select').material_select();
+		});
+	
+	  </script>
+	  
+	
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">Defects Discussion</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+		  <li><a href="index.html">Home</a></li>
+		  <li><a href="defects.html">Defects Discussion</a></li> 	
+		  <li><a href="postDefect.html">Defects Discussion</a></li>			  
+		  <li><a href="About.html">About</a></li> 
+        </ul>		
+      </div>
+    </nav><p>
+	
+
+      <div class="parallax"><img src="background.jpg"></div>
+	  
+ 	  <div class="row white-text text-white">
+		<h5>&nbsp;&nbsp;Defect comment:</h5>
+      <!--  <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s3"><a href="#new_defect">New Defect</a></li>
+            <li class="tab col s3"><a href="#old_defect">Existing Defect</a></li>
+          </ul>
+        </div>
+		  <div class="row " id="old">
+			<div class="input-field col s6 " id="old_defect">
+
+			</div>
+		  </div>		
+		-->
+		
+		  <div class="row " id="new_d">
+			<div class="input-field col s6 " id="new_defect">
+			<input id="title" type="text" class="validate white-text text-white ">
+			<label for="defect_title" class="white-text text-white"><li class="bold">Defect title</li></label>
+			</div>
+			
+          <div class="input-field col s6">
+             <select id="priority" class="white-text text-white ">
+               <option value="P1" disabled selected>Choose Priority(P1 is highest, P5 is lowest))</option>
+               <option value="p1">P1</option>
+               <option value="p2">P2</option>
+               <option value="p3">P3</option>
+               <option value="p4">P4</option>
+               <option value="p5">P4</option>
+             </select>
+             
+           </div>			
+		  </div>
+
+		  
+        <div class="row">
+			<div class="input-field col s3 " id="new_defect">
+			<input id="name" type="text" class="validate white-text text-white ">
+			<label for="name" class="white-text text-white"><li class="bold">Your Name</li></label>
+			</div>
+
+			<div class="input-field col s9">
+			  <input id="discription" type="text" class="validate">
+			  <label for="discription" class='white-text text-white'>Discriptions/Comments</label>
+			</div>			
+        </div>
+		  
+			<div class="input-field col s12">
+            <a class="waves-effect waves-light btn" id="submit">Submit</a>		  
+			</div>
+		<div class="row">	
+          <div class="col s7">
+            <div class="card  red lighten-2">
+              <div class="card-content white-text">
+                <span class="card-title">Defect List</span>
+                <div class="white black-text">
+				  <ul class="collection"  id="defectsList">
+					
+				  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+		</div>
+		</div>	  
+
+	<div id="test"></div>
+
+      <script>
+
+        // create a firebase reference to the root
+        var ref = new Firebase('https://bettybook.firebaseio.com/together/')
+		$('#defectsList').empty();
+		
+		
+        $('#submit').click(function(){
+			
+
+			var userListRef = ref.child('defect')
+			var userListRef = userListRef.push()			
+			var title= $('#title').val();
+			var priority= $('#priority').val();
+			var discription = $('#discription').val();
+			var post_name = $('#name').val();
+		
+				userListRef.set({
+						name:{
+						poster: post_name,
+						desc: discription
+						},
+						title: title,
+						priority: priority
+					});
+				var newUserRef = userListRef.push()				
+				  
+        });
+		
+				
+        ref.child('defect').on('value', function(snapshot){
+          var defects = snapshot.val();
+		  
+         for(var d in defects){
+			var card ='<li class="collection-item">';
+			var nameList = defects[d].name;
+			var defect_title=defects[d].title;
+			var commend='';
+				commend +='<i class="material-icons">filter_drama</i>&nbsp;&nbsp;&nbsp;'+ defect_title+'<br>' ;
+				
+			//for(var n in nameList)
+			//{
+				
+				var discription = nameList['desc'];
+				commend += nameList['poster']+':'+discription 
+			//}
+            card += commend +'</li>';
+            $('#defectsList').append(card);
+          }
+        });	 		
+	</script>
+	
+    </body>
+  </html>

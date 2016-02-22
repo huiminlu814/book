@@ -4,6 +4,7 @@ const { Map, TileLayer, Marker, Popup } = window.ReactLeaflet;
 var data = {
   center: [40.701749, -73.922], // San Francisco
   providers: [],
+  filters: {"Pizza":0,"HotDog":0,"Tacos":0,"Burger":0,"IceCream":0},
   users: []
 }
 
@@ -48,3 +49,29 @@ firebaseRef.child('providers')
     render()
 
   })
+  
+actions.filterUpdateIceCream = function() {
+  var filter = "IceCream"
+  data.filters[filter] == 1 ? data.filters[filter] = 0 :  data.filters[filter] = 1
+  render()
+}
+actions.filterUpdateBurger = function() {
+  var filter = "Burger"
+  data.filters[filter] == 1 ? data.filters[filter] = 0 :  data.filters[filter] = 1
+  render()
+}
+actions.filterUpdateTacos = function() {
+  var filter = "Tacos"
+  data.filters[filter] == 1 ? data.filters[filter] = 0 :  data.filters[filter] = 1
+  render()
+}
+actions.filterUpdatePizza = function() {
+  var filter = "Pizza"
+  data.filters[filter] == 1 ? data.filters[filter] = 0 :  data.filters[filter] = 1
+  render()
+}
+actions.filterUpdateHotDog = function() {
+  var filter = "HotDog"
+  data.filters[filter] == 1 ? data.filters[filter] = 0 :  data.filters[filter] = 1
+  render()
+}

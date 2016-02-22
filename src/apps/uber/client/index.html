@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Client</title>
+    <title>Client - UberCart</title>
+    <link rel="icon" type="image/x-icon" href="/apps/uber/images/ficon.ico">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -22,6 +23,8 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
     <!-- https://github.com/PaulLeCam/react-leaflet -->
     <script src="https://npmcdn.com/react-leaflet/dist/react-leaflet.min.js"></script>
 
@@ -47,6 +50,10 @@
     <script type="text/babel" src="components/navbar.jsx"></script>
     <script type="text/babel" src="components/map.jsx"></script>
     <script type="text/babel" src="components/user.jsx"></script>
+    <script type="text/babel" src="components/needs.jsx"></script>
+    <script type="text/babel" src="components/provider-list.jsx"></script>
+    <script type="text/babel" src="components/move.jsx"></script>
+
 
     <!-- Main app container -->
     <script type="text/babel" src="components/app.jsx"></script>
@@ -54,8 +61,8 @@
     <!-- Connect the app and data -->
     <script type="text/babel" src="data.jsx"></script>
     <div id="nav-bar"> </div>
+    <div id="app-container" class="container">
 
-  <div id="app-container" class="container">
       <div id="mapview" style="height:500px"></div>
 
   </div>
