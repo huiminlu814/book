@@ -19,3 +19,9 @@ Users can view defects summary on defects page.
 	* bettybook/together/memeber
 		* name
 		* position
+		
+# Revision
+* In order to fit ipad resoulation, I add a <meta> tag to the page 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>. 
+Also, I add one more page for posting defects. Users can see all defect lists and post their response on different pages. 
+ 
