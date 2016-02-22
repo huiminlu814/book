@@ -10,8 +10,11 @@ Users can view defects summary on defects page.
 * Defect Disucssion Application
 	* bettybook/together/defect
 	 * randome_number
-		* name: user's name
+		* name:
+			* poster 
+			* description
 		* title: defect description
+		* priority 
 	
 	* bettybook/together/memeber
 		* name
