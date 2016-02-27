@@ -26,7 +26,7 @@ function render(){
 // DATA
 //
 
-var firebaseRef = new Firebase('https://team-roar.firebaseio.com')
+var firebaseRef = new Firebase('https://bettybook.firebaseio.com/Uber/')
 
 // Real-time Data (load constantly on changes)
 firebaseRef.child('providers')

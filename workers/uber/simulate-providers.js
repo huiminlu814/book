@@ -90,7 +90,7 @@ function simulate_user(){
 
 function move_person(person){
  console.log('move', person)
-  var ref = new Firebase('https://team-roar.firebaseio.com/users')
+  var ref = new Firebase('https://bettybook.firebaseio.com/Uber/users')
     var onComplete = function(error) {
       if (error) {
         console.log('Synchronization update failed');
