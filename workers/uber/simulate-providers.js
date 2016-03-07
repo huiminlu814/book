@@ -90,7 +90,7 @@ function simulate_user(){
 
 function move_person(person){
  console.log('move', person)
-  var ref = new Firebase('https://bettybook.firebaseio.com/Uber/users')
+  var ref = new Firebase('https://team-roar.firebaseio.com/users')
     var onComplete = function(error) {
       if (error) {
         console.log('Synchronization update failed');
@@ -128,7 +128,7 @@ function move_person(person){
 
 function enter_provider(person){
   console.log('enter person:', person)
-    var ref = new Firebase('https://bettybook.firebaseio.com/Uber/providers')
+    var ref = new Firebase('https://team-roar.firebaseio.com/providers')
     var providerListRef = ref.child('providers')
     ref.child(person.name).set({
         name: person.name,
@@ -143,7 +143,7 @@ function enter_provider(person){
 
 function enter_user(person){
   console.log('enter user:', person)
-    var ref = new Firebase('https://bettybook.firebaseio.com/Uber/users')
+    var ref = new Firebase('https://team-roar.firebaseio.com/users')
     var userListRef = ref.child('users')
     ref.child(person.name).set({
         name: person.name,
@@ -158,7 +158,7 @@ function enter_user(person){
 
 function leave_user(person){
   console.log('leave', person)
-  var ref = new Firebase('https://bettybook.firebaseio.com/Uber/users')
+  var ref = new Firebase('https://team-roar.firebaseio.com/users')
     var onComplete = function(error) {
         if (error) {
             console.log('Synchronization failed');
@@ -171,7 +171,7 @@ function leave_user(person){
 }
 function leave_provider(person){
   console.log('leave', person)
-  var ref = new Firebase('https://bettybook.firebaseio.com/Uber/providers')
+  var ref = new Firebase('https://team-roar.firebaseio.com/providers')
     var onComplete = function(error) {
         if (error) {
             console.log('Synchronization failed');
@@ -192,9 +192,9 @@ function random_vendor_type(){
 function clear() {
     // TODO: remove all people from the Firebase
     console.log("clear called")
-    var ref = new Firebase('https://bettybook.firebaseio.com/Uber/providers')
+    var ref = new Firebase('https://team-roar.firebaseio.com/providers')
     ref.remove()
-    var ref2 = new Firebase('https://bettybook.firebaseio.com/Uber/users')
+    var ref2 = new Firebase('https://team-roar.firebaseio.com/users')
     ref2.remove()
 }
 // clear the firebase, so that the simulation always starts from no one

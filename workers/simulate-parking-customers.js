@@ -38,23 +38,34 @@ function simulate(){
 
 function enter(person){
   console.log('enter', person)
-  // TODO: put this person in the Firebase
-  // var ref = new Firebase('your-firebase-url')
-  // ...
+
+  var ref = new Firebase('https://team-titans.firebaseio.com/');
+  var usersRef = ref.child("users");
+  var personRef = usersRef.child(person.name);
+
+  personRef.set({
+    lat: person.lat,
+    lon: person.lon,
+    name: person.name
+  });
 }
 
 function leave(person){
   console.log('leave', person)
-  // TODO: remove this person from the Firebase
-  // var ref = new Firebase('your-firebase-url')
-  // ...
+  var ref = new Firebase('https://team-titans.firebaseio.com/')
+  var usersRef = ref.child("users")
+  var personRef = usersRef.child(person.name);
+
+  personRef.remove();
 }
 
 
 function clear(){
   // TODO: remove all people from the Firebase
-  // var ref = new Firebase('your-firebase-url')
-  // ...
+  var ref = new Firebase('https://team-titans.firebaseio.com/')
+  var usersRef = ref.child("users")
+
+  usersRef.remove()
 }
 
 
